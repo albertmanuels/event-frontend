@@ -16,7 +16,7 @@ const useLogin = () => {
   const router = useRouter()
   const [isVisible, setIsVisible] = useState(false)
 
-  const callbackUrl = (router.query.callbackURL as string) || "/";
+  const callbackUrl = (router.query.callbackUrl as string) || "/";
 
   const {
     control,

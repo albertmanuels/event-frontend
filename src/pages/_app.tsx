@@ -28,12 +28,7 @@ export default function App({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
         <NextUIProvider>
-          <main
-            className={cn(
-              inter.className,
-              "flex-cols flex min-h-screen min-w-full items-center justify-center gap-10 py-10 lg:py-0",
-            )}
-          >
+          <main className={cn(inter.className)}>
             <Component {...pageProps} />
           </main>
         </NextUIProvider>
