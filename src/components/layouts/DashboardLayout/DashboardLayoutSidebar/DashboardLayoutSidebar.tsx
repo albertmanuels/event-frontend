@@ -2,6 +2,7 @@ import { cn } from "@/utils/cn";
 import { Button, Listbox, ListboxItem } from "@nextui-org/react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { JSX } from "react";
 import { CiLogout } from "react-icons/ci";
@@ -46,6 +47,8 @@ const DashboardLayoutSidebar = (props: DashboardLayoutSidebarProps) => {
         >
           {(item) => (
             <ListboxItem
+              as={Link}
+              href={item.href}
               key={item.key}
               className={cn("my-1 h-12 text-2xl", {
                 "bg-danger-500 text-white": router.pathname.startsWith(
