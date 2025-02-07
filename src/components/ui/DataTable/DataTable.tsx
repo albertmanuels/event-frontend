@@ -1,4 +1,4 @@
-import { LIMIT_LISTS } from "@/components/constants/list.constants";
+import { LIMIT_LISTS } from "@/constants/list.constants";
 import { cn } from "@/utils/cn";
 import {
   Button,
@@ -74,7 +74,7 @@ const DataTable = (props: DataTableProps) => {
 
   const BottomContent = useMemo(() => {
     return (
-      <div className="flex items-center justify-center px-2 py-2 lg:justify-between">
+      <div className="flex items-center justify-center lg:justify-between">
         <Select
           className="hidden max-w-36 lg:block"
           size="md"
@@ -82,6 +82,7 @@ const DataTable = (props: DataTableProps) => {
           selectionMode="single"
           onChange={onChangeLimit}
           startContent={<p className="text-small">Show: </p>}
+          disallowEmptySelection
         >
           {LIMIT_LISTS.map((item) => (
             <SelectItem key={item.value} value={item.value}>
@@ -89,14 +90,17 @@ const DataTable = (props: DataTableProps) => {
             </SelectItem>
           ))}
         </Select>
-        <Pagination
-          isCompact
-          showControls
-          color="danger"
-          page={currentPage}
-          total={totalPages}
-          onChange={onChangePage}
-        />
+        {totalPages > 1 && (
+          <Pagination
+            isCompact
+            showControls
+            color="danger"
+            page={currentPage}
+            total={totalPages}
+            onChange={onChangePage}
+            loop
+          />
+        )}
       </div>
     );
   }, [limit, totalPages, currentPage, onChangeLimit, onChangePage]);

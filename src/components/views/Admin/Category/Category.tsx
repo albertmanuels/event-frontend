@@ -8,13 +8,33 @@ import {
 } from "@nextui-org/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { Key, ReactNode, useCallback } from "react";
+import React, { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
-import { LIMIT_LISTS } from "@/components/constants/list.constants";
+import useCategory from "./Category.hook";
+import InputFile from "@/components/ui/InputFile";
 
 const Category = () => {
   const router = useRouter();
+
+  const {
+    dataCategory,
+    isLoadingCategory,
+    isRefetchingCategory,
+    currentPage,
+    currentLimit,
+    handleChangeLimit,
+    handleChangePage,
+    setURL,
+    handleSearch,
+    handleClearSearch,
+  } = useCategory();
+
+  useEffect(() => {
+    if (router.isReady) {
+      setURL();
+    }
+  }, [router.isReady]);
 
   const renderCell = useCallback(
     (category: Record<string, unknown>, columnKey: Key) => {
@@ -58,28 +78,26 @@ const Category = () => {
 
   return (
     <section>
-      <DataTable
-        buttonTopContentLabel="Create Category"
-        columns={COLUMN_LIST_CATEGORY}
-        data={[
-          {
-            _id: "1243",
-            name: "Category 1",
-            description: "Description 1",
-            icon: "/images/general/logo.png",
-          },
-        ]}
-        limit={LIMIT_LISTS[0].label}
-        currentPage={1}
-        totalPages={2}
-        renderCell={renderCell}
-        onChangeSearch={() => {}}
-        onClearSearch={() => {}}
-        onClickButtonTopContent={() => {}}
-        onChangeLimit={() => {}}
-        onChangePage={() => {}}
-        emptyContent="Content is empty"
-      />
+      {Object.keys(router.query).length > 0 && (
+        <DataTable
+          buttonTopContentLabel="Create Category"
+          columns={COLUMN_LIST_CATEGORY}
+          data={dataCategory?.data || []}
+          limit={String(currentLimit)}
+          currentPage={Number(currentPage)}
+          totalPages={dataCategory?.pagination?.totalPages}
+          isLoading={isLoadingCategory || isRefetchingCategory}
+          renderCell={renderCell}
+          onChangeSearch={handleSearch}
+          onClearSearch={handleClearSearch}
+          onClickButtonTopContent={() => {}}
+          onChangeLimit={handleChangeLimit}
+          onChangePage={handleChangePage}
+          emptyContent="Content is empty"
+        />
+      )}
+
+      <InputFile name="input" isDropable />
     </section>
   );
 };
