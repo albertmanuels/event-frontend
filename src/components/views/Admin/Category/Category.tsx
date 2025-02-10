@@ -13,8 +13,8 @@ import React, { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constants";
 import useCategory from "./Category.hook";
-import InputFile from "@/components/ui/InputFile";
 import AddCategoryModal from "./components/AddCategoryModal";
+import DeleteCategoryModal from "./components/DeleteCategoryModal";
 
 const Category = () => {
   const router = useRouter();
@@ -31,9 +31,12 @@ const Category = () => {
     handleSearch,
     handleClearSearch,
     refetchCategory,
+    selectedId,
+    setSelectedId,
   } = useCategory();
 
   const addCategoryModal = useDisclosure();
+  const deleteCategoryModal = useDisclosure();
 
   useEffect(() => {
     if (router.isReady) {
@@ -68,6 +71,10 @@ const Category = () => {
                 <DropdownItem
                   key="delete-category-button"
                   className="text-danger-500"
+                  onPress={() => {
+                    setSelectedId(`${category._id}`);
+                    deleteCategoryModal.onOpen();
+                  }}
                 >
                   Delete Category
                 </DropdownItem>
@@ -105,6 +112,13 @@ const Category = () => {
       <AddCategoryModal
         {...addCategoryModal}
         refetchCategory={refetchCategory}
+      />
+
+      <DeleteCategoryModal
+        {...deleteCategoryModal}
+        refetchCategory={refetchCategory}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
       />
     </section>
   );

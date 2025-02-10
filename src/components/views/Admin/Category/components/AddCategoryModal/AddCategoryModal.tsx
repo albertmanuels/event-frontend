@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useAddCategoryModal from "./AddCategoryModal.hook";
 import {
   Button,
