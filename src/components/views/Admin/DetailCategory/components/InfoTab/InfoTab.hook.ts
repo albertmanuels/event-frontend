@@ -34,7 +34,7 @@ const useInfoTab = (props: InfoTabProps) => {
     if(isSuccessUpdate) {
       resetUpdateInfo()
     }
-  }, [])
+  }, [isSuccessUpdate])
 
   return {
     controlUpdateInfo, 

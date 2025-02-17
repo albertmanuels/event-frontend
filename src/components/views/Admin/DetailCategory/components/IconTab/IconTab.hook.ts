@@ -3,6 +3,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import * as yup from "yup"
+import { IconTabProps } from "./IconTab.types"
 
 const schemaUpdateIcon = yup.object().shape({
   icon: yup.mixed<FileList | string>().required("Please input category")

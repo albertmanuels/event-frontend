@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import { useContext } from "react"
 
 const useDetailCategory = () => {
-  const {query, isReady} = useRouter()
+  const {query} = useRouter()
   const {setToaster} = useContext(ToasterContext)
 
   const getCategoryById = async (id: string) => {
@@ -17,7 +17,11 @@ const useDetailCategory = () => {
 
   const {data: dataCategory, isLoading: isCategoryLoading, refetch: refetchCategory} = useQuery({
     queryKey: ['Category'],
-    queryFn: () => getCategoryById(`${query.id}`)
+    queryFn: async () => {
+      if(query.id) {
+        return await getCategoryById(`${query.id}`)
+      }
+    }
   })
 
   const updateCategory = async (payload: ICategory) => {
