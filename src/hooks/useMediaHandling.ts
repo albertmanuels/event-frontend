@@ -7,19 +7,18 @@ import { useContext } from "react"
 const useMediaHandling = () => {
   const {setToaster} = useContext(ToasterContext)
 
-  const uploadIcon = async (file: File, callback: (fileUrl: string) => void) => {
+  const uploadFile = async (file: File, callback: (fileUrl: string) => void) => {
 
     const formData = new FormData()
     formData.append("file", file)
     const {
       data: {
         data: {
-          secure_url: icon
+          secure_url: fileUrl
         }
       }
     } = await uploadServices.uploadFile(formData)
-    callback(icon)
-
+    callback(fileUrl)
   }
 
   const { mutate: mutateUploadFile, isPending: isPendingMutateUploadFile } = useMutation({
@@ -27,7 +26,7 @@ const useMediaHandling = () => {
       variables: {
         file: File, 
         callback: (fileUrl: string) => void
-      }) => uploadIcon(variables.file, variables.callback),
+      }) => uploadFile(variables.file, variables.callback),
     onError: (error) => {
       setToaster({
         type: "error",
@@ -36,12 +35,35 @@ const useMediaHandling = () => {
     },
   })
 
-
-
   const deleteIcon = async (fileUrl: string, callback: () => void) => {
     const res = await uploadServices.deleteFile({fileUrl})
   
     if(res.data.meta.status === 200) {
+      callback()
+    }
+  }
+
+  const handleUploadFile = (
+    files: FileList, 
+    onChange: (files: FileList | undefined ) => void, 
+    callback: (fileUrl?: string) => void
+  ) => {
+    if(files.length !== 0) {
+      onChange(files)
+      mutateUploadFile({
+        file: files[0], 
+        callback
+      })
+    }
+  }
+
+  const handleDeleteFile = (
+    fileUrl: string | FileList | undefined,
+    callback: () => void
+  ) => { 
+    if(typeof fileUrl === "string") {
+      mutateDeleteFile({fileUrl, callback})
+    } else {
       callback()
     }
   }
@@ -64,7 +86,9 @@ const useMediaHandling = () => {
     mutateUploadFile,
     isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingMutateDeleteFile
+    isPendingMutateDeleteFile,
+    handleUploadFile,
+    handleDeleteFile,
   }
 }
 

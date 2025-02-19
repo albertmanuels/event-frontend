@@ -6,12 +6,18 @@ import React, { Key, ReactNode, useCallback } from "react";
 import { COLUMN_LIST_EVENT } from "./Event.constants";
 import useEvent from "./Event.hook";
 import DropdownAction from "@/components/commons/DropdownAction";
+import AddEventModal from "./components/AddEventModal";
 
 const Event = () => {
   const router = useRouter();
 
-  const { dataEvents, isLoadingEvents, isRefetchingEvents, setSelectedId } =
-    useEvent();
+  const {
+    dataEvents,
+    isLoadingEvents,
+    isRefetchingEvents,
+    setSelectedId,
+    refetchEvents,
+  } = useEvent();
 
   const addEventModal = useDisclosure();
   const deleteEventModal = useDisclosure();
@@ -75,6 +81,7 @@ const Event = () => {
           emptyContent="Event is empty"
         />
       )}
+      <AddEventModal {...addEventModal} refetchCategory={refetchEvents} />
     </section>
   );
 };
