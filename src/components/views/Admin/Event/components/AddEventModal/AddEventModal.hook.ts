@@ -1,5 +1,5 @@
 import { ToasterContext } from "@/context/ToasterContext"
-import { IEvent, IRegency } from "@/types/Event"
+import { IEvent} from "@/types/Event"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import { useContext, useState } from "react"
@@ -10,7 +10,6 @@ import useMediaHandling from "@/hooks/useMediaHandling"
 import { DateValue } from "@nextui-org/react"
 import eventServices from "@/services/event.service"
 import categoryServices from "@/services/category.service"
-import { useRouter } from "next/router"
 import useDebounce from "@/hooks/useDebounce"
 import { DELAY } from "@/constants/list.constants"
 
@@ -34,7 +33,6 @@ const schema = yup.object().shape({
 const useAddEventModal = (props: AddEventModalProps) => {
   const {onClose, refetchEvents} = props
   const {setToaster} = useContext(ToasterContext)
-  const router = useRouter()
   const debounce = useDebounce()
   const [searchRegency, setSearchRegency] = useState("")
   

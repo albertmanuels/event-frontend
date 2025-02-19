@@ -81,7 +81,7 @@ const Event = () => {
           emptyContent="Event is empty"
         />
       )}
-      <AddEventModal {...addEventModal} refetchCategory={refetchEvents} />
+      <AddEventModal {...addEventModal} refetchEvents={refetchEvents} />
     </section>
   );
 };
