@@ -9,15 +9,25 @@ interface IEvent {
   name: string;
   slug: string;
   category: string;
-  isFeatured: string;
-  isPublished: string;
+  isFeatured: boolean | string;
+  isPublished: boolean | string;
+  isOnline: boolean | string;
   description:string;
-  startDate: DateValue | string;
-  endDate: DateValue | string;
-  region: string,
-  longitude: string,
-  latitude: string,
+  startDate: string;
+  endDate: string;
+  location?: {
+    region: string,
+    coordinates: number[]
+  }
   banner: string | FileList
 }
 
-export {IEvent, IRegency}
+interface IEventForm extends IEvent {
+  region: string;
+  startDate: DateValue;
+  endDate: DateValue;
+  latitude: string;
+  longitude: string;
+}
+
+export {IEvent, IRegency, IEventForm}

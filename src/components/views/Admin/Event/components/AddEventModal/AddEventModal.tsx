@@ -21,6 +21,7 @@ import InputFile from "@/components/ui/InputFile";
 import { AddEventModalProps } from "./AddEventModal.types";
 import { ICategory } from "@/types/Category";
 import { IRegency } from "@/types/Event";
+import { getLocalTimeZone, now } from "@internationalized/date";
 
 const AddEventModal = (props: AddEventModalProps) => {
   const { isOpen, onClose, onOpenChange } = props;
@@ -120,6 +121,7 @@ const AddEventModal = (props: AddEventModalProps) => {
                       {...field}
                       label="Start Date"
                       hideTimeZone
+                      defaultValue={now(getLocalTimeZone())}
                       showMonthAndYearPickers
                       variant="bordered"
                       isInvalid={errors.startDate !== undefined}
@@ -135,6 +137,7 @@ const AddEventModal = (props: AddEventModalProps) => {
                       {...field}
                       label="End Date"
                       hideTimeZone
+                      defaultValue={now(getLocalTimeZone())}
                       showMonthAndYearPickers
                       variant="bordered"
                       isInvalid={errors.endDate !== undefined}
@@ -182,6 +185,40 @@ const AddEventModal = (props: AddEventModalProps) => {
                         No
                       </SelectItem>
                     </Select>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="isOnline"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      label="Online/Offline"
+                      variant="bordered"
+                      isInvalid={errors.isOnline !== undefined}
+                      errorMessage={errors.isOnline?.message}
+                      disallowEmptySelection
+                    >
+                      <SelectItem key="true" value="true">
+                        Online
+                      </SelectItem>
+                      <SelectItem key="false" value="false">
+                        Offline
+                      </SelectItem>
+                    </Select>
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="description"
+                  render={({ field }) => (
+                    <Textarea
+                      {...field}
+                      label="Description"
+                      variant="bordered"
+                      isInvalid={errors.description !== undefined}
+                      errorMessage={errors.description?.message}
+                    />
                   )}
                 />
                 <p className="text-sm font-bold">Location</p>
@@ -240,19 +277,6 @@ const AddEventModal = (props: AddEventModalProps) => {
                     )}
                   />
                 </div>
-                <Controller
-                  control={control}
-                  name="description"
-                  render={({ field }) => (
-                    <Textarea
-                      {...field}
-                      label="Description"
-                      variant="bordered"
-                      isInvalid={errors.description !== undefined}
-                      errorMessage={errors.description?.message}
-                    />
-                  )}
-                />
               </div>
               <p className="text-sm font-bold">Cover</p>
               <Controller
