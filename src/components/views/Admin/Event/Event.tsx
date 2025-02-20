@@ -7,6 +7,7 @@ import { COLUMN_LIST_EVENT } from "./Event.constants";
 import useEvent from "./Event.hook";
 import DropdownAction from "@/components/commons/DropdownAction";
 import AddEventModal from "./components/AddEventModal";
+import DeleteEventModal from "./components/DeleteEventModal";
 
 const Event = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ const Event = () => {
     isRefetchingEvents,
     setSelectedId,
     refetchEvents,
+    selectedId,
   } = useEvent();
 
   const addEventModal = useDisclosure();
@@ -82,6 +84,12 @@ const Event = () => {
         />
       )}
       <AddEventModal {...addEventModal} refetchEvents={refetchEvents} />
+      <DeleteEventModal
+        {...deleteEventModal}
+        refetchEvents={refetchEvents}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+      />
     </section>
   );
 };

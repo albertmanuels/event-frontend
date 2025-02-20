@@ -7,26 +7,15 @@ import {
   ModalHeader,
   Spinner,
 } from "@nextui-org/react";
-import React, { Dispatch, SetStateAction } from "react";
-import useDeleteCategoryModal from "./DeleteEventModal.hook";
-
-export interface DeleteEventModalProps {
-  refetchCategory: () => void;
-  onClose: () => void;
-  onOpenChange: () => void;
-  isOpen: boolean;
-  selectedId: string;
-  setSelectedId: Dispatch<SetStateAction<string>>;
-}
+import React from "react";
+import useDeleteEventModal from "./DeleteEventModal.hook";
+import { DeleteEventModalProps } from "./DeleteEventModal.types";
 
 const DeleteEventModal = (props: DeleteEventModalProps) => {
   const { isOpen, onClose, onOpenChange, selectedId, setSelectedId } = props;
 
-  const {
-    mutateDeleteCategory,
-    isPendingMutateDeleteCategory,
-    isSuccessMutateDeleteCategory,
-  } = useDeleteCategoryModal(props);
+  const { mutateDeleteEvent, isPendingMutateDeleteEvent } =
+    useDeleteEventModal(props);
 
   return (
     <Modal
@@ -37,10 +26,10 @@ const DeleteEventModal = (props: DeleteEventModalProps) => {
       onClose={onClose}
     >
       <ModalContent className="m-4">
-        <ModalHeader>Delete Category</ModalHeader>
+        <ModalHeader>Delete Event</ModalHeader>
         <ModalBody>
           <p className="text-medium">
-            Are you sure you want to delete this category?
+            Are you sure you want to delete this event?
           </p>
         </ModalBody>
         <ModalFooter>
@@ -51,17 +40,17 @@ const DeleteEventModal = (props: DeleteEventModalProps) => {
               onClose();
               setSelectedId("");
             }}
-            disabled={isPendingMutateDeleteCategory}
+            disabled={isPendingMutateDeleteEvent}
           >
             Cancel
           </Button>
           <Button
             color="danger"
             type="submit"
-            disabled={isPendingMutateDeleteCategory}
-            onPress={() => mutateDeleteCategory(selectedId)}
+            disabled={isPendingMutateDeleteEvent}
+            onPress={() => mutateDeleteEvent(selectedId)}
           >
-            {isPendingMutateDeleteCategory ? (
+            {isPendingMutateDeleteEvent ? (
               <Spinner size="sm" color="white" />
             ) : (
               "Delete"
